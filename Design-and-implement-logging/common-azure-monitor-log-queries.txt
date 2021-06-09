@@ -1,0 +1,53 @@
+// Ouptuts all the data in the table
+InsightsMetrics   
+
+// Searches the data in a specific table or all of the tables for a value
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/searchoperator?pivots=azuremonitor
+search in (InsightsMetrics) "casDB2"
+
+// Filter results of a query by a certain condition
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/whereoperator
+InsightsMetrics
+| where Computer == "casDB2"
+
+// Outputs a defined number of records from the table
+https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/takeoperator
+InsightsMetrics
+| where Computer == "casDB2"
+| take 5
+
+// Sorts the most recent records by column in a table
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/topoperator
+InsightsMetrics
+| where Computer == "casDB2"
+| top 5 by TimeGenerated
+
+// Sort output in a table by a specified column
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/sortoperator
+InsightsMetrics
+| where Computer == "casDB2"
+| sort by TimeGenerated desc 
+
+// Where you only want certain columns to be included in the query results
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/projectoperator
+InsightsMetrics
+| top 10 by TimeGenerated
+| project TimeGenerated, Computer, Name, Val
+
+
+// Group records together according to the count aggregation
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/summarizeoperator
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/countoperator
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/agofunction
+Heartbeat
+| where TimeGenerated > ago(1h)
+| summarize count() by Computer
+
+// Group records together according to the average aggregation and uses "bin()" to set intervals in the query results
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/avg-aggfunction
+// https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/binfunction
+InsightsMetrics
+| where TimeGenerated > ago(90d)
+| where Computer == "casDB2"
+| where Namespace  == "Processor" and Name == "UtilizationPercentage"
+| summarize avg(Val) by bin(TimeGenerated, 1h)
