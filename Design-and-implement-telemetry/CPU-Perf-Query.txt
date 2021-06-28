@@ -1,0 +1,4 @@
+Perf
+| where CounterName == "% Processor Time"
+| where ObjectName == "Processor"
+| summarize avg(CounterValue) by bin(TimeGenerated, 15min), Computer, _ResourceId
