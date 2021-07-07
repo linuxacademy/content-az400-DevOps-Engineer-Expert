@@ -29,7 +29,7 @@
     },
     "subscriptionId": "...",
     "resourceGroupName": "<Resource Group Name>",
-    "resourceName": "Resource Name",
+    "resourceName": "<Resource Name>",
     "resourceType": "Microsoft.Compute/virtualMachines",
     "resourceId": "...",
     "portalLink": "..."
