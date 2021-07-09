@@ -1,0 +1,9 @@
+# Docker file to be used to create image from
+echo "FROM hello-world" > Dockerfile
+    
+# Automatically build and push the image to the azure container registry with the tag v1
+az acr build --image sample/hello-world:v1 --registry <ACR Name> \
+--file Dockerfile .
+
+# Run container
+az acr run --registry <ACR Name> --cmd '$Registry/sample/hello-world:v1' /dev/null

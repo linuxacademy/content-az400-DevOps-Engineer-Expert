@@ -1,0 +1,3 @@
+SigninLogs
+| project UserId
+| where UserId == <"User ID">
